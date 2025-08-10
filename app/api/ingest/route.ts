@@ -9,6 +9,14 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Text is required' }, { status: 400 });
   }
 
+  if (!process.env.OPENAI_API_KEY) {
+    return NextResponse.json({ error: 'OPENAI_API_KEY is not configured' }, { status: 500 });
+  }
+
+  if (!process.env.PINECONE_API_KEY) {
+    return NextResponse.json({ error: 'PINECONE_API_KEY is not configured' }, { status: 500 });
+  }
+
   const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
   const pinecone = new Pinecone({ apiKey: process.env.PINECONE_API_KEY });
 

@@ -5,6 +5,14 @@ import { Pinecone } from '@pinecone-database/pinecone';
 export async function POST(req: Request) {
   const { query } = await req.json();
 
+  if (!process.env.OPENAI_API_KEY) {
+    return NextResponse.json({ error: 'OPENAI_API_KEY is not configured' }, { status: 500 });
+  }
+
+  if (!process.env.PINECONE_API_KEY) {
+    return NextResponse.json({ error: 'PINECONE_API_KEY is not configured' }, { status: 500 });
+  }
+
   const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
   const pinecone = new Pinecone({ apiKey: process.env.PINECONE_API_KEY });
 
